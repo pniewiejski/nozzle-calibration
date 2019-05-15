@@ -1,3 +1,13 @@
+# PROJECT SEPCIFIC
+data/*
+!data/CONTENTS.md
+!data/downloadData.sh
+
+## EDITOR
+.idea/
+.vscode/
+
+## PYTHON
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
