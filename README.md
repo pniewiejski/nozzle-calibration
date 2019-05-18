@@ -9,3 +9,8 @@ Download data files.
 $ cd data
 $ ./downloadData.sh [Google Drive id]
 ```
+
+### Python dependencies
+```
+make install
+```
