@@ -13,7 +13,7 @@ class Tanks(DataSet):
                     "fuelHeight", "fuelVolume", "fuelTemperature"],
             parse_dates=[0],
             decimal=",",
-            usecols=["timestamp", "tankID", "fuelHeight", "fuelVolume", "fuelTemperature"],
+            usecols=["timestamp", "tankID", "fuelHeight", "fuelVolume"],
         )
     
     def get_tank_by_id(id: int):
