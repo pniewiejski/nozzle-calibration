@@ -14,3 +14,4 @@ $ ./downloadData.sh [Google Drive id]
 ```
 make install
 ```
+<img src="https://i.chzbgr.com/full/7135493632/h6E511564/" width="250">
