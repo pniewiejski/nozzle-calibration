@@ -12,7 +12,7 @@ class ErrorneousTransactionGenerator:
         `error_rate` : float
         """
         self.nozzle = nozzle
-        self.error_rate
+        self.error_rate = error_rate
 
     def generate(self):
         # get only rows with uniq values in totalCounter column
