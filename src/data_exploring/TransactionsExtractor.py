@@ -32,5 +32,5 @@ class TransactionsExtractor:
         nozzle_uniq = self.get_uniq_total_counter_values()
         single_transactions = self.extract_as_list()
         
-        nozzle_uniq["singleTransactions"] = single_transactions
+        nozzle_uniq["singleTransaction"] = single_transactions
         return nozzle_uniq
