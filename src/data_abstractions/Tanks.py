@@ -16,7 +16,7 @@ class Tanks(DataSet):
             usecols=["timestamp", "tankID", "fuelHeight", "fuelVolume"],
         )
     
-    def get_tank_by_id(id: int):
+    def get_tank_by_id(self, id: int) -> pd.DataFrame:
         return self.data[self.data["tankID"] == id]
     
     def plot_4by4(self):
