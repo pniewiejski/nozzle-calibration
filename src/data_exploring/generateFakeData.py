@@ -25,6 +25,8 @@ selected_nozzles = [TransactionsExtractor(nozzles.get_nozzle(nozzle_id)).extract
 selected_nozzles = pd.concat(selected_nozzles)
 selected_nozzles.sort_values(by="timestamp", inplace=True)
 
+print(selected_nozzles)
+
 for nozzle_transaction in selected_nozzles.iterrows():
 
     transaction_timestamp = nozzle_transaction[1]["timestamp"]
