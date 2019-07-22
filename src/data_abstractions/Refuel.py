@@ -14,4 +14,5 @@ class Refuel(DataSet):
                 parse_dates=[0],
             )
 
-    
+    def get_by_tank_id(tankID: int) -> pd.DataFrame:
+        return self.data[self.data["tankID"] == tankID]
