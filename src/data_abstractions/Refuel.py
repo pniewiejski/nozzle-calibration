@@ -16,3 +16,4 @@ class Refuel(DataSet):
 
     def get_by_tank_id(tankID: int) -> pd.DataFrame:
         return self.data[self.data["tankID"] == tankID]
+        

@@ -31,19 +31,20 @@ for nozzle_transaction in selected_nozzles.iterrows():
 
     transaction_timestamp = nozzle_transaction[1]["timestamp"]
     single_transaction = nozzle_transaction[1]["singleTransaction"]
+    nozzleID = nozzle_transaction[1]["nozzleID"]
 
     min_time_diff_index = find_nearest_tank_entry_index(transaction_timestamp, tank)
     nearest_tank_entry = tank.iloc[min_time_diff_index]
 
     tank_t0 = None
     tank_t1 = None
-    if transaction_timestamp <= nearest_tank_entry["timestamp"]:
+    if transaction_timestamp > nearest_tank_entry["timestamp"]:
         tank_t0 = nearest_tank_entry
         tank_t1 = tank.iloc[min_time_diff_index + 1] # this could be problematic
     else:
         tank_t0 = tank.iloc[min_time_diff_index - 1] # this could be problematic as well :/ 
         tank_t1 = nearest_tank_entry
 
-    diff = tank_t1["fuelVolume"] - ( tank_t0["fuelVolume"] - single_transaction )
+    diff = tank_t1["fuelVolume"] - (tank_t0["fuelVolume"] - single_transaction) 
 
-    print("diff: {}".format(diff))
+    print("diff: {}, transaction={}, transaction_time={}, nozzleID={} t0={}, t1={}".format(diff, single_transaction, transaction_timestamp,nozzleID, str(tank_t0), str(tank_t1)))
