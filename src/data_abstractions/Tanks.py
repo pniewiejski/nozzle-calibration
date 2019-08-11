@@ -17,7 +17,7 @@ class Tanks(DataSet):
         )
     
     def get_tank_by_id(self, id: int) -> pd.DataFrame:
-        return self.data[self.data["tankID"] == id]
+        return self.data[self.data["tankID"] == id].reset_index()
     
     def plot_4by4(self):
         fig, axes = plt.subplots(nrows=2, ncols=2, figsize=(12,8))
