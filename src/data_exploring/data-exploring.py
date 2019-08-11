@@ -1,3 +1,4 @@
+# This routine is only a proof of concept. It's intended for testing new ideas 
 import pandas as pd
 
 from data_abstractions.Nozzles import Nozzles
