@@ -1,7 +1,7 @@
 # This routine is only a proof of concept. It's intended for testing new ideas 
 import pandas as pd
 
-from data_abstractions.Nozzles import Nozzles
+from data_abstractions.NozzlesData import NozzlesData
 from data_exploring.ErroneousTransactionGenerator import ErroneousTransactionGenerator
 from data_exploring.TransactionsExtractor import TransactionsExtractor
 from data_abstractions.Tanks import Tanks
@@ -19,7 +19,7 @@ tank = tanks.get_tank_by_id(1)
 # reset index ! 
 tank.reset_index(inplace=True)
 
-nozzles = Nozzles()
+nozzles = NozzlesData()
 # get nozzles associated with selected tank
 selected_nozzles = [TransactionsExtractor(nozzles.get_nozzle(nozzle_id)).extract_to_column() for nozzle_id in [13, 17, 21]]
 # concat and sort by timestamp
