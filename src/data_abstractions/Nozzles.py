@@ -21,4 +21,4 @@ class Nozzles(DataSet):
     
     def get_nozzle(self, nozzleID: int) -> pd.DataFrame:
         """Get subset of nozzle data by nozzleID"""
-        return self.data[self.data["nozzleID"] == nozzleID]
+        return self.data[self.data["nozzleID"] == nozzleID].reset_index()
