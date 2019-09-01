@@ -7,7 +7,7 @@ School project that aims to find a method of identifying fuel nozzles with misca
 Download data files. 
 ```
 $ cd data
-$ ./downloadData.sh [Google Drive id]
+$ ./downloadData.sh [Google Drive id] # sh... it's a secret 🤫
 ```
 
 ### Python dependencies

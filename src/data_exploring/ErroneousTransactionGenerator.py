@@ -2,6 +2,7 @@ import pandas as pd
 
 from data_exploring.TransactionsExtractor import TransactionsExtractor
 
+
 class ErroneousTransactionGenerator:
     """
     Generate erroneous transactions for single nozzle
@@ -25,17 +26,22 @@ class ErroneousTransactionGenerator:
         # single_transactions[0] = 0
         # nozzle_uniq = self.extractor.get_uniq_total_counter_values()
         single_transactions = self.extractor.extract_as_list()
-        # We use a simple error rate model where 
+        # We use a simple error rate model where
         # gauge error = fuel from transaction * error rate
         # This model was advised on consultation meeting
-        erroneous_transactions = list(map(lambda x : x * (1 + self.error_rate), single_transactions))
-        
+        erroneous_transactions = list(
+            map(lambda x: x * (1 + self.error_rate), single_transactions)
+        )
+
         single_transactions_df = self.extractor.extract_to_column()
         single_transactions_df["singleTransaction"] = erroneous_transactions
         return single_transactions_df
-        
+
     def compute_erroneous_total_counter(self) -> pd.DataFrame:
         single_transactions_df = self.generate()
-        erroneous_total_counter = [sum(erroneous_transactions[0:index+1]) for index in range(len(erroneous_transactions))]
+        erroneous_total_counter = [
+            sum(erroneous_transactions[0 : index + 1])
+            for index in range(len(erroneous_transactions))
+        ]
         single_transactions_df["erroneousTotalCounter"] = erroneous_total_counter
         return single_transactions_df
