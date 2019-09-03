@@ -12,10 +12,7 @@ class Mapping:
             "tank3": "Tank3_30000.csv",
             "tank4": "Tank4_40000.csv",
         }
-        self.data = {
-            tank: pd.read_csv(self.get_file_path(tank), sep=";")
-            for tank in self.DATAFILES
-        }
+        self.data = {tank: pd.read_csv(self.get_file_path(tank), sep=";") for tank in self.DATAFILES}
 
     def get_file_path(self, data_file):
         """Evaluate file path"""

@@ -10,15 +10,7 @@ class Tanks(DataSet):
         self.data = pd.read_csv(
             self.get_file_path(1, "tank"),
             sep=";",
-            names=[
-                "timestamp",
-                "locationID",
-                "meterID",
-                "tankID",
-                "fuelHeight",
-                "fuelVolume",
-                "fuelTemperature",
-            ],
+            names=["timestamp", "locationID", "meterID", "tankID", "fuelHeight", "fuelVolume", "fuelTemperature"],
             parse_dates=[0],
             decimal=",",
             usecols=["timestamp", "tankID", "fuelHeight", "fuelVolume"],
@@ -31,8 +23,6 @@ class Tanks(DataSet):
     def plot_4by4(self):
         fig, axes = plt.subplots(nrows=2, ncols=2, figsize=(12, 8))
         for _tankID, axis in enumerate(axes.flat):
-            self.data[self.data["tankID"] == _tankID + 1].plot(
-                x="timestamp", y="fuelVolume", ax=axis
-            )
+            self.data[self.data["tankID"] == _tankID + 1].plot(x="timestamp", y="fuelVolume", ax=axis)
             axis.set_title(f"tank {_tankID + 1}")
         return self

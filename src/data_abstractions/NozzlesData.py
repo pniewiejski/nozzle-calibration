@@ -15,25 +15,10 @@ class NozzlesData(DataSet):
         self.data = pd.read_csv(
             self.get_file_path(1, "nozzle"),
             sep=";",
-            names=[
-                "timestamp",
-                "locationID",
-                "nozzleID",
-                "tankID",
-                "literCounter",
-                "totalCounter",
-                "status",
-            ],
+            names=["timestamp", "locationID", "nozzleID", "tankID", "literCounter", "totalCounter", "status"],
             parse_dates=[0],
             decimal=",",
-            usecols=[
-                "timestamp",
-                "nozzleID",
-                "tankID",
-                "literCounter",
-                "totalCounter",
-                "status",
-            ],
+            usecols=["timestamp", "nozzleID", "tankID", "literCounter", "totalCounter", "status"],
         )
 
     def get_nozzle(self, nozzleID: int) -> pd.DataFrame:

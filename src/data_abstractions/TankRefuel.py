@@ -66,9 +66,7 @@ class TankRefuel:
         if refueling_start_index is None:
             return 0
         else:
-            predicted_refueling_end_timestamp = self._get_predicted_refueling_end(
-                refueling_start_index
-            )
+            predicted_refueling_end_timestamp = self._get_predicted_refueling_end(refueling_start_index)
             refueling_rate = self._get_pumping_rate_by_index(refueling_start_index)
 
             if predicted_refueling_end_timestamp < t1:
@@ -76,9 +74,6 @@ class TankRefuel:
                 return 0
             elif predicted_refueling_end_timestamp < t2:
                 # refueling will end before t2
-                return (
-                    calculate_timedelta(predicted_refueling_end_timestamp, t1)
-                    * refueling_rate
-                )
+                return calculate_timedelta(predicted_refueling_end_timestamp, t1) * refueling_rate
             else:
                 return calculate_timedelta(t2, t1) * refueling_rate

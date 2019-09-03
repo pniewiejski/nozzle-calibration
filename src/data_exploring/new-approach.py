@@ -24,7 +24,7 @@ tank = tanks.get_tank_by_id(1)
 nozzles = NozzlesData()
 
 
-def do_stuff_for_nozzles(nozzles, t0, t1):
+def compute_nozzles_throughput(nozzles, t0, t1):
     NOZZLES_IDs = [13, 17, 21]
     # select subset of all nozzles between t0 and t1
     mask = (nozzles["timestamp"] >= t0) & (nozzles["timestamp"] <= t1)
@@ -36,10 +36,9 @@ def do_stuff_for_nozzles(nozzles, t0, t1):
     nozzle_throughput = {i: 0 for i in NOZZLES_IDs}
 
     for nozzleID in NOZZLES_IDs:
-        nozzle_throughput[nozzleID] = compute_throughput(
-            nozzles_subset[nozzles_subset["nozzleID"] == nozzleID], t0, t1
-        )
+        nozzle_throughput[nozzleID] = compute_throughput(nozzles_subset[nozzles_subset["nozzleID"] == nozzleID], t0, t1)
     print("Nozzle throughput {} between {} and {}".format(nozzle_throughput, t0, t1))
+    return nozzle_throughput
 
 
 # TODO: change this name
@@ -75,9 +74,7 @@ def compute_throughput(single_nozzle_subset, t0, t1):
 
     nozzle_throughput_sum = 0
 
-    if has_ongoing_transactions(single_nozzle_subset) or has_finished_transactions(
-        single_nozzle_subset
-    ):
+    if has_ongoing_transactions(single_nozzle_subset) or has_finished_transactions(single_nozzle_subset):
         MSG = "Should return non-zero value; "
         # things will happen here!
 
@@ -88,9 +85,7 @@ def compute_throughput(single_nozzle_subset, t0, t1):
             if get_liter_counter_at_timestamp(single_nozzle_subset, t1) == 0:
                 MSG += "lC at t1 is 0; "
                 nozzle_throughput_sum += (
-                    max(total_counter)
-                    - min(total_counter)
-                    + get_liter_counter_at_timestamp(single_nozzle_subset, t0)
+                    max(total_counter) - min(total_counter) + get_liter_counter_at_timestamp(single_nozzle_subset, t0)
                 )
             else:
                 nozzle_throughput_sum += (
@@ -116,12 +111,10 @@ def compute_throughput(single_nozzle_subset, t0, t1):
                 MSG += "lC at t1 is 0; "
                 liter_counter = single_nozzle_subset["totalCounter"].tolist()
                 nozzle_throughput_sum += (
-                    max(liter_counter)
-                    - min(liter_counter)
-                    - get_liter_counter_at_timestamp(single_nozzle_subset, t0)
+                    max(liter_counter) - min(liter_counter) - get_liter_counter_at_timestamp(single_nozzle_subset, t0)
                 )
         print(MSG)
-    assert nozzle_throughput_sum >= 0, "Agata się pomyliła"
+    assert nozzle_throughput_sum >= 0, "Agata się pomyliła :p - Nozzle throughput cannot be smaller than 0!"
     return nozzle_throughput_sum
 
 
@@ -137,5 +130,13 @@ for index in range(1, tank_last_entry_index + 1):
     tank_entry_t0_timestamp = tank_entry_t0["timestamp"]
     tank_entry_t1_timestamp = tank_entry_t1["timestamp"]
 
-    # TODO: refactor this name later :shrug
-    do_stuff_for_nozzles(nozzles.data, tank_entry_t0_timestamp, tank_entry_t1_timestamp)
+    tank_entry_t0_volume = tank_entry_t0["fuelVolume"]
+    tank_entry_t1_volume = tank_entry_t1["fuelVolume"]
+    tank_delta = tank_entry_t0_volume - tank_entry_t1_volume
+
+    nozzles_throughput = compute_nozzles_throughput(nozzles.data, tank_entry_t0_timestamp, tank_entry_t1_timestamp)
+
+    balance = tank_delta - sum(nozzles_throughput.values())
+    ERR_RATE = 1
+    if np.abs(balance) > ERR_RATE:
+        print("Inbalance {} - detected at {} : {}".format(balance, tank_entry_t0_timestamp, tank_entry_t1_timestamp))
