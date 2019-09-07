@@ -13,5 +13,7 @@ $ ./downloadData.sh [Google Drive id] # sh... it's a secret 🤫
 ### Python dependencies
 ```
 make install
+# alternatively, if you also want to install dev dependencies
+make install-all
 ```
 <img src="https://i.chzbgr.com/full/7135493632/h6E511564/" width="250">

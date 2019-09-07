@@ -6,7 +6,6 @@ from data_abstractions.Refuel import Refuel
 class TankRefuel:
     def __init__(self, tankID: int):
         refueling_data = Refuel()
-        # reseting index !
         self.data = refueling_data.get_by_tank_id(tankID)
 
     def _get_last_index(self):

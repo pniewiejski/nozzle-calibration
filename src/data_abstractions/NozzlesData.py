@@ -21,6 +21,11 @@ class NozzlesData(DataSet):
             usecols=["timestamp", "nozzleID", "tankID", "literCounter", "totalCounter", "status"],
         )
 
-    def get_nozzle(self, nozzleID: int) -> pd.DataFrame:
+    def get_by_id(self, nozzleID: int) -> pd.DataFrame:
         """Get subset of nozzle data by nozzleID and reset index"""
         return self.data[self.data["nozzleID"] == nozzleID].reset_index()
+
+    def get_entries_between_timestamps(self, t0, t1):
+        """select subset of all nozzles between t0 and t1 timestamps"""
+        mask = (self.data["timestamp"] >= t0) & (self.data["timestamp"] <= t1)
+        return self.data.loc[mask]
