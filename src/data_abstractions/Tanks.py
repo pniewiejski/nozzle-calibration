@@ -16,7 +16,7 @@ class Tanks(DataSet):
             usecols=["timestamp", "tankID", "fuelHeight", "fuelVolume"],
         )
 
-    def get_tank_by_id(self, id: int) -> pd.DataFrame:
+    def get_by_id(self, id: int) -> pd.DataFrame:
         """Get tank by tankID and reset index"""
         return self.data[self.data["tankID"] == id].reset_index()
 

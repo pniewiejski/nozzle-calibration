@@ -7,7 +7,7 @@ class TankRefuel:
     def __init__(self, tankID: int):
         refueling_data = Refuel()
         # reseting index !
-        self.data = refueling_data.get_by_tank_id(tankID).reset_index(inplace=True)
+        self.data = refueling_data.get_by_tank_id(tankID)
 
     def _get_last_index(self):
         """
@@ -52,16 +52,16 @@ class TankRefuel:
         refueling_timedelta = pd.to_timedelta(refueling_time_seconds, unit="seconds")
         return refuel_start_timestamp + refueling_timedelta
 
-    def get_refueling_delta(self, t1, t2):
+    def get_refueling_delta(self, t0, t1):
         """
         Get the amount of fuel that has been added to a tank in a refueling process 
-        between `t1` and `t2`
+        between `t0` and `t1`
         """
 
         def calculate_timedelta(a, b):
             return pd.Timedelta(a - b).seconds / 60
 
-        refueling_start_index = self._get_closest_refuel_start(t1)
+        refueling_start_index = self._get_closest_refuel_start(t0)
 
         if refueling_start_index is None:
             return 0
@@ -69,11 +69,11 @@ class TankRefuel:
             predicted_refueling_end_timestamp = self._get_predicted_refueling_end(refueling_start_index)
             refueling_rate = self._get_pumping_rate_by_index(refueling_start_index)
 
-            if predicted_refueling_end_timestamp < t1:
+            if predicted_refueling_end_timestamp < t0:
                 # predicted end is before t1
                 return 0
-            elif predicted_refueling_end_timestamp < t2:
+            elif predicted_refueling_end_timestamp < t1:
                 # refueling will end before t2
-                return calculate_timedelta(predicted_refueling_end_timestamp, t1) * refueling_rate
+                return calculate_timedelta(predicted_refueling_end_timestamp, t0) * refueling_rate
             else:
-                return calculate_timedelta(t2, t1) * refueling_rate
+                return calculate_timedelta(t1, t0) * refueling_rate

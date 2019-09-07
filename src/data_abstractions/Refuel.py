@@ -6,7 +6,7 @@ from data_abstractions.DataSet import DataSet
 
 class Refuel(DataSet):
     def __init__(self):
-        super()
+        super().__init__()
         self.data = pd.read_csv(
             self.get_file_path(1, "refuel"),
             sep=";",
@@ -15,5 +15,5 @@ class Refuel(DataSet):
             parse_dates=[0],
         )
 
-    def get_by_tank_id(tankID: int) -> pd.DataFrame:
-        return self.data[self.data["tankID"] == tankID]
+    def get_by_tank_id(self, tankID: int) -> pd.DataFrame:
+        return self.data[self.data["tankID"] == tankID].reset_index()
